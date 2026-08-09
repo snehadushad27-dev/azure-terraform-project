@@ -1,27 +1,34 @@
-name: Terraform Plan
+name: Terraform CI/CD
 
 on:
   push:
     branches:
       - terraform-dev
-
-  pull_request:
-    branches:
-      - main
+      
 
 jobs:
-  terraform:
-    name: Terraform Init Validate Plan
+
+  # ==========================================
+  # FEATURE BRANCH - PLAN ONLY
+  # ==========================================
+  terraform-plan:
+    name: Terraform Plan - Feature
+    if: github.ref == 'refs/heads/terraform-dev'
     runs-on: ubuntu-latest
+
+    # defaults:
+    #   run:
+    #     working-directory: environment/dev
 
     steps:
 
-      # 1. Checkout code
+      # Checkout
       - name: Checkout Code
         uses: actions/checkout@v4
 
-       - name: Azure Login
-        uses: azure/login@v2
+      # Azure Login
+      - name: Azure Login
+        uses: azure/login@v3
         with:
           creds: |
             {
@@ -31,26 +38,18 @@ jobs:
               "tenantId": "0e48a96c-4cf9-4bb4-bf06-2a912f0fc53e"
             }
 
-      # 2. Install Terraform
+      # Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # 3. Check Terraform version
-      - name: Terraform Version
-        run: terraform version
-
-      # 4. Terraform Format Check
-      - name: Terraform Format Check
-        run: terraform fmt -check
-
-      # 5. Terraform Init
+      # Init
       - name: Terraform Init
         run: terraform init
 
-      # 6. Terraform Validate
+      # Validate
       - name: Terraform Validate
         run: terraform validate
 
-      # 7. Terraform Plan
+      # Plan
       - name: Terraform Plan
         run: terraform plan
