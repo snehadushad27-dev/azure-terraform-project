@@ -20,6 +20,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+       - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: |
+            {
+              "clientId": "cc674b5d-a1e6-402f-bd6a-dec7ff2f631d",
+              "clientSecret": "-K98Q~FKme2iBLPAUQJPWRuZOws~4F-ip0mgbcEN",
+              "subscriptionId": "28b33a86-0366-416d-8614-9dccbe3c193b",
+              "tenantId": "0e48a96c-4cf9-4bb4-bf06-2a912f0fc53e"
+            }
+
       # 2. Install Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
