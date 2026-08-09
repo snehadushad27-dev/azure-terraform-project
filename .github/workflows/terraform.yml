@@ -1,4 +1,4 @@
-name: Terraform CI
+name: Terraform Plan
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   terraform:
-    name: Terraform Check
+    name: Terraform Init Validate Plan
     runs-on: ubuntu-latest
 
     steps:
@@ -39,3 +39,7 @@ jobs:
       # 6. Terraform Validate
       - name: Terraform Validate
         run: terraform validate
+
+      # 7. Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
